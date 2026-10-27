@@ -4,7 +4,7 @@
 <meta name="author" content="سید هادی موسوی | Syed Hadi Mosavi — شرکت سیمرغ | Simorgh Co.">
 <meta name="description" content="سیمرغ LifeOS؛ سوپراپلیکیشن دوزبانه مدیریت حساب‌وکتاب، پیامک‌های بانکی، هشدار زنگ و زندگی روزمره — ساخته سید هادی موسوی (شرکت سیمرغ)">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./v2.css"><link rel="stylesheet" href="./v3.css"><link rel="stylesheet" href="./v4.css">
+<link rel="stylesheet" href="./v2.css"><link rel="stylesheet" href="./v3.css"><link rel="stylesheet" href="./v4.css"><link rel="stylesheet" href="./mobile.css">
 <title>زندگی من · سیمرغ | Simorgh LifeOS — شرکت سیمرغ (سید هادی موسوی)</title>
 </head><body>
 <div class="orb orb-a"></div><div class="orb orb-b"></div>
@@ -89,7 +89,7 @@
 <dialog id="simpleDialog"><form id="simpleForm" method="dialog"><div class="dialog-head"><div><small id="simpleEyebrow">افزودن</small><h2 id="simpleTitle"></h2></div><button type="button" onclick="this.closest('dialog').close()">×</button></div><div id="simpleFields"></div><button class="btn primary full" value="default">ذخیره</button></form></dialog>
 <dialog id="finishDialog"><form id="finishForm" method="dialog"><div class="dialog-head"><h2>پایان جلسه</h2><button type="button" onclick="this.closest('dialog').close()">×</button></div><label>کیفیت تمرکز<select name="focus_rating"><option value="5">عالی</option><option value="4">خوب</option><option value="3" selected>متوسط</option><option value="2">ضعیف</option><option value="1">خیلی ضعیف</option></select></label><label>تعداد وقفه<input name="interruptions" type="number" value="0" min="0"></label><label>یادداشت<textarea name="note" placeholder="چه چیزی یاد گرفتی؟"></textarea></label><label class="toggle"><input name="complete_task" type="checkbox"><span></span> کار مرتبط هم انجام شد</label><button class="btn primary full" value="default">ثبت جلسه</button></form></dialog>
 
-<script src="./local-vault.js"></script>
+<script src="./local-vault.js"></script><script src="./mobile.js"></script>
 <script type="module" src="./v2.js"></script>
 <script type="module" src="./v3.js"></script>
 <script type="module" src="./v4.js"></script>
