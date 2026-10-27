@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- خواندن و دریافت فقط پیامک‌های بانکی با فیلتر دقیق سرشماره‌های انتخابی کاربر -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <!-- زنگ بیدارباش دقیق، ویبره، اعلان روی صفحه قفل و بازتنظیم پس از ری‌استارت گوشی -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- قفل اثر انگشت / تشخیص چهره اختیاری -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_simorgh_logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SimorghLifeOS">
+
+        <meta-data
+            android:name="ir.simorgh.creator"
+            android:value="Syed Hadi Mosavi (سید هادی موسوی) - Simorgh Co. (شرکت سیمرغ)" />
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|locale|layoutDirection"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- دریافت‌کننده آنی پیامک‌های تراکنش بانکی (فقط از سرشماره‌های مجاز کاربر) -->
+        <receiver
+            android:name=".sms.BankSmsReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- دریافت‌کننده زنگ هشدار دقیق و دکمه‌های اسنوز / انجام شد روی صفحه قفل -->
+        <receiver
+            android:name=".alarm.SimorghAlarmReceiver"
+            android:exported="false" />
+
+        <!-- بازگردانی خودکار زنگ‌ها پس از خاموش و روشن شدن گوشی -->
+        <receiver
+            android:name=".alarm.BootRescheduleReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- ویجت شیشه‌ای صفحه اصلی اندروید (نمایش موجودی کارت + کار بعدی) -->
+        <receiver
+            android:name=".widget.SimorghWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/simorgh_widget_info" />
+        </receiver>
+
+    </application>
+</manifest>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Simorgh LifeOS</string>
+    <string name="widget_title">Simorgh Wallet &amp; Today</string>
+    <string name="alarm_channel_name">Simorgh Smart Alarms &amp; Reminders</string>
+    <string name="bank_channel_name">Simorgh Bank SMS Auto-Accounting</string>
+    <string name="snooze_10m">Snooze 10m</string>
+    <string name="dismiss_alarm">Dismiss</string>
+    <string name="biometric_title">Simorgh Vault Security</string>
+    <string name="biometric_subtitle">Unlock your personal finances &amp; plans</string>
+</resources>

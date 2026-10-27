@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">زندگی من · سیمرغ</string>
+    <string name="widget_title">ویجت مالی و روزانه سیمرغ</string>
+    <string name="alarm_channel_name">هشدار زنگ و یادآور هوشمند سیمرغ</string>
+    <string name="bank_channel_name">محاسبه خودکار پیامک بانکی سیمرغ</string>
+    <string name="snooze_10m">۱۰ دقیقه بعد</string>
+    <string name="dismiss_alarm">متوجه شدم ✓</string>
+    <string name="biometric_title">قفل امنیتی سیمرغ</string>
+    <string name="biometric_subtitle">ورود با اثر انگشت به حساب‌وکتاب شخصی</string>
+</resources>
