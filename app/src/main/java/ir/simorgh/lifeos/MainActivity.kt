@@ -15,6 +15,8 @@ import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.webkit.WebViewAssetLoader
 import ir.simorgh.lifeos.bridge.SimorghJsBridge
 import org.json.JSONObject
@@ -58,6 +60,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setContentView(webView)
+
+        // Android 15+ forces edge-to-edge: keep the page inside status bar / nav bar / notch,
+        // and lift it above the on-screen keyboard so form fields are never hidden.
+        ViewCompat.setOnApplyWindowInsetsListener(webView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                    WindowInsetsCompat.Type.displayCutout() or
+                    WindowInsetsCompat.Type.ime()
+            )
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
 
         val assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
