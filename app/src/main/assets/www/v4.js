@@ -544,23 +544,7 @@ function injectV4() {
   if (focusNav && !$4('nav [data-page="notes"]')) {
     focusNav.insertAdjacentHTML('afterend', `<button data-page="notes" class="coach-nav">📓 <span>یادداشت‌ها</span></button>`);
   }
-  const settingsNav = $4('nav [data-page="settings"]');
-  if (settingsNav && !$4('#academicDrawerBtn')) {
-    settingsNav.insertAdjacentHTML(
-      'beforebegin',
-      `<button type="button" id="academicDrawerBtn" class="nav-drawer-toggle">
-         <span>🎓 میز دانشگاه و مطالعه</span><i>▾</i>
-       </button>
-       <div id="academicDrawerBody" class="nav-drawer-body">
-         <button data-page="subjects" class="coach-nav">🎓 <span>درس‌ها و معدل</span></button>
-       </div>`
-    );
-    const drawerBody = $4('#academicDrawerBody');
-    ['topics', 'cards', 'exams', 'mistakes', 'myday', 'insights'].forEach(pKey => {
-      const btn = $4(`nav > [data-page="${pKey}"]`);
-      if (btn && drawerBody) drawerBody.appendChild(btn);
-    });
-  }
+  // academic drawer removed for maximum simplicity and focus on ledger
 
   const settingsPage = $4('#page-settings');
   if (settingsPage && !$4('#page-finance')) {
