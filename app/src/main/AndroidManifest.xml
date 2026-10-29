@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- خواندن و دریافت فقط پیامک‌های بانکی با فیلتر دقیق سرشماره‌های انتخابی کاربر -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-feature android:name="android.hardware.telephony" android:required="false" />
-
-    <!-- زنگ بیدارباش دقیق، ویبره، اعلان روی صفحه قفل و بازتنظیم پس از ری‌استارت گوشی -->
+    <!-- نوتیفیکیشن و یادآورهای بومی (بدون هیچ‌گونه دسترسی به پیامک یا اطلاعات خصوصی) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -15,7 +10,7 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- قفل اثر انگشت / تشخیص چهره اختیاری -->
+    <!-- قفل بیومتریک برای امنیت اطلاعات مالی -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
@@ -43,22 +38,12 @@
             </intent-filter>
         </activity>
 
-        <!-- دریافت‌کننده آنی پیامک‌های تراکنش بانکی (فقط از سرشماره‌های مجاز کاربر) -->
-        <receiver
-            android:name=".sms.BankSmsReceiver"
-            android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="999">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
-
-        <!-- دریافت‌کننده زنگ هشدار دقیق و دکمه‌های اسنوز / انجام شد روی صفحه قفل -->
+        <!-- گیرنده زنگ بیدارباش و سررسید بدهی‌ها -->
         <receiver
             android:name=".alarm.SimorghAlarmReceiver"
             android:exported="false" />
 
-        <!-- بازگردانی خودکار زنگ‌ها پس از خاموش و روشن شدن گوشی -->
+        <!-- زمان‌بندی مجدد هشدارها پس از روشن شدن گوشی -->
         <receiver
             android:name=".alarm.BootRescheduleReceiver"
             android:exported="true">
@@ -68,7 +53,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- ویجت شیشه‌ای صفحه اصلی اندروید (نمایش موجودی کارت + کار بعدی) -->
+        <!-- ویجت تراز کیف پول روی صفحه اصلی -->
         <receiver
             android:name=".widget.SimorghWidgetProvider"
             android:exported="true"
