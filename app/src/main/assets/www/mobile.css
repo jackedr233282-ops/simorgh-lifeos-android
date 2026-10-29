@@ -168,7 +168,7 @@ body {
   }
   .sp-m-backdrop.show { opacity: 1; pointer-events: auto; }
 
-  /* نوار تب ۴ گانه اصلی در پایین صفحه (فوق‌العاده خلوت، ساده و بدون ازدحام) */
+  /* نوار تب ۲ تایی تمیز و لوکس در پایین صفحه */
   .floating-dock {
     position: fixed !important;
     left: 0 !important;
@@ -178,9 +178,9 @@ body {
     max-width: 100% !important;
     transform: none !important;
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 0 !important;
-    padding: 6px 4px calc(var(--sp-safe-b) + 6px) !important;
+    padding: 6px 12px calc(var(--sp-safe-b) + 6px) !important;
     border-radius: 20px 20px 0 0 !important;
     background: rgba(14, 19, 29, 0.98) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
