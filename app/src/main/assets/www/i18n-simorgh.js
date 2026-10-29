@@ -340,7 +340,7 @@
             ${en ? '🔇 Stop Ringing' : '🔇 توقف صدای زنگ'}
           </button>
           <button type="button" id="btnGrantNativePerms" class="btn pale">
-            ${en ? '📲 Grant SMS & Notification Access' : '📲 بررسی مجوزهای اندروید'}
+            ${en ? '🔔 Grant Notification Access' : '🔔 تایید مجوز اعلان و هشدار'}
           </button>
         </div>
 
