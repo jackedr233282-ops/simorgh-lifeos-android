@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -23,9 +24,8 @@ import org.json.JSONObject
 import java.lang.ref.WeakReference
 
 /**
- * Simorgh LifeOS — سوپراپلیکیشن دوزبانه حساب‌وکتاب و زندگی روزمره
- * سازنده: سید هادی موسوی (Syed Hadi Mosavi)
- * شرکت: شرکت سیمرغ (Simorgh Co.)
+ * Simorgh LifeOS — سوپراپلیکیشن آفلاین و امن مدیریت مالی و زندگی
+ * سازنده: سید هادی موسوی (Syed Hadi Mosavi) — شرکت سیمرغ (Simorgh Co.)
  */
 class MainActivity : AppCompatActivity() {
 
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val permLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { results ->
-        val smsGranted = results[Manifest.permission.READ_SMS] == true || results[Manifest.permission.RECEIVE_SMS] == true
-        evalJs("window.__onSimorghPermissionsUpdated?.(${smsGranted})")
+        val notifGranted = results[Manifest.permission.POST_NOTIFICATIONS] == true
+        evalJs("window.__onSimorghPermissionsUpdated?.(${notifGranted})")
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -48,6 +48,13 @@ class MainActivity : AppCompatActivity() {
 
         webView = WebView(this).apply {
             setBackgroundColor(Color.parseColor("#090B10"))
+            
+            // شتاب سخت‌افزاری کامل جهت اسکرول ۶۰ فریم بر ثانیه
+            setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            isVerticalScrollBarEnabled = false
+            isHorizontalScrollBarEnabled = false
+            overScrollMode = View.OVER_SCROLL_IF_CONTENT_SCROLLS
+
             settings.apply {
                 javaScriptEnabled = true
                 domStorageEnabled = true
@@ -57,12 +64,13 @@ class MainActivity : AppCompatActivity() {
                 mediaPlaybackRequiresUserGesture = false
                 cacheMode = WebSettings.LOAD_DEFAULT
                 mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                useWideViewPort = true
+                loadWithOverviewMode = true
             }
         }
         setContentView(webView)
 
-        // Android 15+ forces edge-to-edge: keep the page inside status bar / nav bar / notch,
-        // and lift it above the on-screen keyboard so form fields are never hidden.
+        // مدیریت فاصله نوار وضعیت و کیبورد بدون تداخل با محتوا
         ViewCompat.setOnApplyWindowInsetsListener(webView) { v, insets ->
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars() or
@@ -116,14 +124,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun requestSimorghPermissions() {
-        val perms = mutableListOf(
-            Manifest.permission.RECEIVE_SMS,
-            Manifest.permission.READ_SMS
-        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            perms.add(Manifest.permission.POST_NOTIFICATIONS)
+            permLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         }
-        permLauncher.launch(perms.toTypedArray())
     }
 
     fun dispatchJsJson(fnName: String, json: JSONObject) {
@@ -146,11 +149,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private var activeInstance: WeakReference<MainActivity>? = null
-
-        fun dispatchLiveBankTxToWeb(jsonStr: String) {
-            val act = activeInstance?.get() ?: return
-            val escaped = jsonStr.replace("\\", "\\\\").replace("'", "\\'")
-            act.evalJs("window.__onSimorghBankSmsReceived?.('$escaped')")
-        }
     }
 }
