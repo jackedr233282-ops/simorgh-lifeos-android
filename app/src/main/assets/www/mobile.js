@@ -1,19 +1,18 @@
 /**
- * Simorgh LifeOS — Mobile helpers (classic script, safe to run on desktop too)
- * - Drawer backdrop + auto-close after choosing a page
- * - "More" tab in the bottom bar to open the full menu
- * - Floating "＋" button for fast manual income/expense entry
- * Creator: Syed Hadi Mosavi — Simorgh Co.
+ * Simorgh LifeOS — Mobile Hub (4 Clean Tabs + Smooth Drawer & FAB)
+ * سازنده: سید هادی موسوی (Syed Hadi Mosavi) — شرکت سیمرغ (Simorgh Co.)
  */
 (function () {
   'use strict';
   const mq = window.matchMedia('(max-width: 820px)');
   const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   function setup() {
     const aside = $('aside');
     if (!aside || document.querySelector('.sp-m-backdrop')) return;
 
+    // ۱. لایه تیره شیک پشت منو
     const backdrop = document.createElement('div');
     backdrop.className = 'sp-m-backdrop';
     (document.getElementById('app') || document.body).insertBefore(backdrop, aside);
@@ -28,33 +27,38 @@
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-    // Bottom bar: "More" opens drawer
+    // ۲. نوار ۴ گانه تمیز در پایین صفحه
     const dock = $('#floatingDock');
-    if (dock && !$('.sp-m-more', dock)) {
-      const more = document.createElement('button');
-      more.type = 'button';
-      more.className = 'dock-btn sp-m-more';
-      const fa = (document.documentElement.lang || 'fa') !== 'en';
-      more.innerHTML = '☰ <span>' + (fa ? 'بیشتر' : 'More') + '</span>';
-      more.addEventListener('click', e => {
-        e.stopPropagation();
-        aside.classList.add('open');
-        sync();
+    if (dock) {
+      const isEn = (document.documentElement.lang || 'fa') === 'en';
+      dock.innerHTML = `
+        <button type="button" class="dock-btn" data-dock-page="home">⌂ <span>${isEn ? 'Home' : 'خانه'}</span></button>
+        <button type="button" class="dock-btn" data-dock-page="finance">💳 <span>${isEn ? 'Finance' : 'حساب‌وکتاب'}</span></button>
+        <button type="button" class="dock-btn" data-dock-page="life">🌿 <span>${isEn ? 'Routine' : 'روتین'}</span></button>
+        <button type="button" class="dock-btn" data-dock-page="settings">⚙ <span>${isEn ? 'Settings' : 'تنظیمات'}</span></button>
+      `;
+      
+      // همگام‌سازی رویداد کلیک دکمه‌های نوار پایین
+      $$('.dock-btn[data-dock-page]', dock).forEach(btn => {
+        btn.onclick = () => {
+          const target = btn.dataset.dockPage;
+          if (window.spPage) window.spPage(target);
+          else $(`nav [data-page="${target}"]`)?.click();
+        };
       });
-      dock.appendChild(more);
     }
 
-    // FAB for quick manual expense/income
+    // ۳. دکمه بزرگ شناور ＋ برای ثبت سریع خرج و دخل دستی
     if (!$('.sp-m-fab')) {
       const fab = document.createElement('button');
       fab.type = 'button';
       fab.className = 'sp-m-fab';
-      fab.setAttribute('aria-label', 'Add transaction');
+      fab.setAttribute('aria-label', 'ثبت تراکنش دستی');
       fab.textContent = '＋';
       fab.addEventListener('click', () => {
-        const topBtn = $('#quickExpenseTopBtn') || $('#openQuickTxBtn');
-        if (topBtn) topBtn.click();
-        else window.spPage?.('finance');
+        const quickBtn = $('#openQuickTxBtn') || $('#quickExpenseTopBtn');
+        if (quickBtn) quickBtn.click();
+        else if (window.spPage) window.spPage('finance');
       });
       document.body.appendChild(fab);
     }
@@ -62,13 +66,12 @@
 
   function boot() {
     setup();
-    // Dock / app are created asynchronously by v4.js — retry briefly.
     let tries = 0;
     const t = setInterval(() => {
       setup();
       const dock = $('#floatingDock');
-      if ((dock && dock.querySelector('.sp-m-more')) || ++tries > 40) clearInterval(t);
-    }, 300);
+      if ((dock && dock.children.length === 4) || ++tries > 30) clearInterval(t);
+    }, 250);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
