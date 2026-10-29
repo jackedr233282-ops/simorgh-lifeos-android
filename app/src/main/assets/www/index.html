@@ -11,7 +11,10 @@
 <section id="login" class="login hidden"><form id="loginForm" class="login-box"><div class="logo">🦅</div><small>SIMORGH CO. · SYED HADI MOSAVI</small><h1>خوش برگشتی</h1><p>فضای شخصی و آفلاین مدیریت حساب‌وکتاب، پیامک بانکی و زندگی روزمره.</p><label>رمز ورود<input name="password" type="password" value="simorgh" autocomplete="current-password" placeholder="رمز ورود شخصی"></label><button class="btn primary full">ورود به میز کار سیمرغ</button><em id="loginError"></em></form></section>
 <div id="app" class="layout hidden">
 <aside><div class="brand"><div class="logo">🦅</div><div><b>زندگی من · سیمرغ</b><small>حساب‌وکتاب، روتین و پیشرفت</small></div></div><div id="xpSidebar"></div><nav>
-<button data-page="home" class="active">⌂ <span>ویترین امروز</span></button><button data-page="week">▦ <span>تقویم هفتگی</span></button><button data-page="tasks">✓ <span>کارها و لیست‌ها</span></button><button data-page="topics">◎ <span>سرفصل‌ها</span></button><button data-page="focus">◴ <span>اتاق تمرکز</span></button><button data-page="cards">◇ <span>فلش‌کارت</span></button><button data-page="insights">↗ <span>آمار و گزارش</span></button><button data-page="settings">⚙ <span>تنظیمات</span></button>
+<button data-page="home" class="active">⌂ <span>ویترین خانه</span></button>
+<button data-page="finance">💳 <span>حساب‌وکتاب و دخل‌وخرج</span></button>
+<button data-page="life">🌿 <span>عادت‌ها و روتین زندگی</span></button>
+<button data-page="settings">⚙ <span>تنظیمات و امنیت</span></button>
 </nav><div class="side-health"><i></i><div><b>حالت آفلاین امن فعال</b><small>شرکت سیمرغ · سید هادی موسوی</small></div></div><button id="logout" class="logout">قفل امنیتی برنامه 🔐</button></aside>
 <main><header><button id="menu">☰</button><div><small id="dateLabel"></small><h1 id="hello">روزت بخیر ✨</h1></div><div class="head-actions"><button id="quickExpenseTopBtn" class="btn pale" type="button">💳 ثبت دستی خرج / دخل</button><button id="cmdBtn" class="v4-icon-btn" title="جستجو و دسترسی سریع (Ctrl+K)">🔎 <span>جستجو</span> <kbd class="v4-kbd">⌘K</kbd></button><button id="themeToggle" class="v4-icon-btn" title="تغییر پوسته ظاهری">🎨</button><button id="installBtn" class="btn pale hidden">نصب اپ</button><button class="btn primary addTask">＋ کار جدید</button><div class="avatar">من</div></div></header><div id="toast" class="toast hidden"></div>
 
@@ -74,11 +77,11 @@
 
 <section id="page-tasks" class="page"><div class="title"><div><small>مدیریت مسیر</small><h2>کارها، کوییزها و چک‌لیست</h2></div><div class="action-row"><button id="toggleKanban" class="btn pale">نمای کانبان ▦</button><button class="btn primary addTask">＋ کار تازه</button></div></div><div class="chips"><button class="active" data-filter="open">باز</button><button data-filter="quiz">کوییز</button><button data-filter="review">مرور</button><button data-filter="done">انجام‌شده</button><button data-filter="all">همه</button></div><div id="taskList" class="task-list"></div></section>
 
-<section id="page-topics" class="page"><div class="title"><div><small>نقشهٔ یادگیری</small><h2>سرفصل‌های درسی</h2><p>تسلط هر مبحث را جداگانه دنبال کن.</p></div><button id="addTopic" class="btn primary">＋ سرفصل</button></div><div id="topicBoard" class="topic-board"></div></section>
 
-<section id="page-focus" class="page"><div class="focus-shell"><div class="focus-copy"><small>FOCUS MODE · SIMORGH</small><h2>فقط همین یک کار.</h2><p>زمان را انتخاب کن، صدای محیطی آرامش‌بخش را روشن کن و عمیق شو.</p><label>کار مرتبط<select id="focusTask"></select></label><div class="duration-pills"><button data-minutes="25">۲۵</button><button class="active" data-minutes="45">۴۵</button><button data-minutes="60">۶۰</button><button data-minutes="90">۹۰</button></div><div id="soundBar" class="sound-bar"><small>🎧 صدای محیط:</small><button type="button" class="sound-btn" data-sound="off">خاموش</button><button type="button" class="sound-btn" data-sound="rain">🌧 باران ملایم</button><button type="button" class="sound-btn" data-sound="brown">🌊 نویز قهوه‌ای</button><button type="button" class="sound-btn" data-sound="alpha">✨ موج آلفا</button><button type="button" id="zenToggle" class="sound-btn">⛶ حالت ذن</button></div></div><div class="timer-card"><div class="timer-ring"><div><b id="timer">۴۵:۰۰</b><small id="timerState">آماده</small></div></div><div class="timer-actions"><button id="startFocus" class="btn primary">شروع</button><button id="pauseFocus" class="btn pale" disabled>مکث</button><button id="finishFocus" class="btn pale" disabled>پایان</button></div></div></div><div class="grid two"><article class="panel"><h3>جلسات اخیر</h3><div id="focusHistory"></div></article><article class="panel calm"><h3>قانون آرامش</h3><p>هدف، کامل‌بودن نیست؛ هدف این است که امروز کمی جلوتر از دیروز باشی.</p><ul><li>موبایل دور از دسترس</li><li>یک لیوان آب کنار دست</li><li>فقط یک پنجره باز</li></ul></article></div></section>
 
-<section id="page-cards" class="page"><div class="title"><div><small>مرور فعال SM-2</small><h2>فلش‌کارت‌های امروز</h2><p>فاصلهٔ مرور با کیفیت پاسخ تو تنظیم می‌شود.</p></div><div class="action-row"><button id="addCard" class="btn primary">＋ فلش‌کارت</button></div></div><div id="cardStudy" class="study-card"></div><div id="cardQueue" class="mini-list"></div></section>
+
+
+
 
 <section id="page-insights" class="page"><div class="title"><div><small>بازخورد واقعی و گیمیفیکیشن</small><h2>تحلیل پیشرفت و دستاوردها</h2></div><a class="btn pale" href="/api/v3/backup" download>دریافت پشتیبان کامل</a></div><div class="grid two"><article class="panel"><h3>دقایق مطالعه (۱۴ روز اخیر)</h3><div id="chart" class="chart"></div></article><article class="panel"><h3>تسلط درس‌ها</h3><div id="mastery"></div></article></div><div class="grid three"><article class="metric"><small>زنجیره</small><b id="metricStreak">۰</b><span>روز</span></article><article class="metric"><small>میانگین تمرکز</small><b id="focusAvg">۰</b><span>از ۵</span></article><article class="metric"><small>مرور آماده</small><b id="dueCards">۰</b><span>کارت</span></article></div><div id="v4InsightsExtra"></div></section>
 
@@ -93,6 +96,5 @@
 <script type="module" src="./v2.js"></script>
 <script type="module" src="./v3.js"></script>
 <script type="module" src="./v4.js"></script>
-<script type="module" src="./bank-sms-ai.js"></script>
 <script type="module" src="./i18n-simorgh.js"></script>
 </body></html>
